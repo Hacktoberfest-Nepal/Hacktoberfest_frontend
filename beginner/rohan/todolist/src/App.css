@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+  --primary-color: #0497d1;
+  --secondary-color: #222222;
+  --danger-color: red;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background: #ebebeb;
+  font-family: 'Roboto', sans-serif;
+  color: var(--secondary-color);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 5%;
+  color: var(--primary-color);
+  opacity: 0.8;
+}
+
+.innerWrapper {
+  background: #ebebeb;
+  padding: 40px;
+  box-shadow: 2px 2px 5px 1px rgba(48, 47, 47, 0.4);
+  border-radius: 3px;
+}
+
+.addTask {
+  background: var(--danger-color);
+  margin: 0;
+}
+
+.addTask input {
+  width: 100%;
+  position: relative;
+  height: 35px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid rgba(48, 47, 47, 0.4);
+}
+
+.addTask button {
+  position: absolute;
+  width: 40px;
+  margin-left: -40px;
+  background-color: var(--primary-color);
+  border: none;
+  height: 35px;
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 35px;
+}
+
+.info {
+  color: rgba(48, 47, 47, 0.7);
+  font-size: 14px;
+}
+
+.ui-state-default {
+  border-bottom: 1px solid rgba(48, 47, 47, 0.2);
+  margin: 5px 0;
+  padding: 5px;
+  font-size: 15px;
+  position: relative;
+}
+
+.ui-state-default img {
+  width: 20px;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+
+.remaining {
+  color: var(--danger-color);
+}
+
+.completed {
+  color: var(--primary-color);
+  text-decoration: line-through;
+}
+
+.filterClass ul {
+  display: table;
+  width: 100%;
+  margin: 5% 0;
+  padding: 0;
+}
+
+.filterClass ul li {
+  display: table-cell;
+  width: 33.33%;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(48, 47, 47, 0.2);
+  padding: 8px;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.filterClass ul li:hover {
+  cursor: pointer;
+}
+
+.activatedFilter {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.itemCounterInfo {
+  font-size: 14px;
+  color: rgba(48, 47, 47, 0.7);
+  margin: 20px 5px;
+}
+
+.itemCounterInfo span {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.danger {
+  color: var(--danger-color);
+}
+
+.nodanger {
+  color: var(--primary-color);
+}
+
+.footer {
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--primary-color);
+  letter-spacing: 2px;
+}
