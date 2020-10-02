@@ -1,191 +1,164 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AddTask } from './components/AddTask';
 import { CompletedTasks } from './components/CompletedTasks';
 import { RemainingTasks } from './components/RemainingTasks';
 import { Header } from './components/Header';
 import { Filter } from './components/Filter';
 
-export default class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      tasks: [],
-      completedTasks: [],
-      indexCount: 0,
-      allFilterToggler: true,
-      remainingFilterToggler: false,
-      completedFilterToggler: false,
-      userInputValueHolder: '',
-    };
-  }
+const App = () => {
+  const [tasks, setTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
+  const [indexCount, setIndexCount] = useState(0);
+  const [allFilterToggler, setAllFilterToggler] = useState(true);
+  const [remainingFilterToggler, setRemainingFilterToggler] = useState(false);
+  const [completedFilterToggler, setCompleteFilterToggler] = useState(false);
+  const [userInputValueHolder, setUserInputValueHolder] = useState('');
 
   // method to update the todolist.
-  updateUserNewTask(newTask, inputFieldRef) {
+  const updateUserNewTask = (newTask) => {
     let temp = {
-      index: this.state.indexCount,
+      index: indexCount,
       content: newTask,
       completed: false,
     };
-    this.setState((prevState) => {
-      return {
-        indexCount: this.state.indexCount + 1,
-        tasks: prevState.tasks.concat(temp),
-        userInputValueHolder: '',
-      };
-    });
-    inputFieldRef.current.value = '';
+
+    setIndexCount(indexCount + 1);
+    setTasks(tasks.concat(temp));
+    setUserInputValueHolder('');
     return true;
-  }
+  };
   // method to delete user task from remaining Tasks.
-  deleteUserTask(e) {
+  const deleteUserTask = (e) => {
     let buttonIndex = parseInt(e.target.id);
-    let indexer = this.state.tasks.findIndex((x) => x.index === buttonIndex);
-    let completedTask = this.state.tasks.splice(indexer, 1);
-    this.setState((prevState) => {
-      return {
-        tasks: prevState.tasks,
-        completedTasks: prevState.completedTasks.concat(completedTask),
-      };
-    });
-  }
+    let indexer = tasks.findIndex((x) => x.index === buttonIndex);
+    let completedTask = tasks.splice(indexer, 1);
+
+    setTasks(tasks);
+    setCompletedTasks(completedTasks.concat(completedTask));
+  };
 
   // method to delete user task from Completed Tasks.
-  deleteCompletedUserTask(e) {
+  const deleteCompletedUserTask = (e) => {
     let buttonIndex = parseInt(e.target.id);
-    let indexer = this.state.completedTasks.findIndex(
-      (x) => x.index === buttonIndex
-    );
-    this.state.completedTasks.splice(indexer, 1);
-    this.setState((prevState) => {
-      return {
-        tasks: prevState.tasks,
-      };
-    });
-  }
+    let indexer = completedTasks.findIndex((x) => x.index === buttonIndex);
+    completedTasks.splice(indexer, 1);
+    setTasks(tasks);
+  };
   // Filter Toggler Methods Start.
-  allToggler() {
-    if (!this.state.allFilterToggler) {
-      this.setState({
-        allFilterToggler: true,
-        remainingFilterToggler: false,
-        completedFilterToggler: false,
-      });
+  const allToggler = () => {
+    if (!allFilterToggler) {
+      setAllFilterToggler(true);
+      setRemainingFilterToggler(false);
+      setCompleteFilterToggler(false);
     }
-  }
+  };
 
-  remainingToggler() {
-    if (!this.state.remainingFilterToggler) {
-      this.setState({
-        allFilterToggler: false,
-        remainingFilterToggler: true,
-        completedFilterToggler: false,
-      });
+  const remainingToggler = () => {
+    if (!remainingFilterToggler) {
+      setAllFilterToggler(false);
+      setRemainingFilterToggler(true);
+      setCompleteFilterToggler(false);
     }
-  }
+  };
 
-  completedToggler() {
-    if (!this.state.completedFilterToggler) {
-      this.setState({
-        allFilterToggler: false,
-        remainingFilterToggler: false,
-        completedFilterToggler: true,
-      });
+  const completedToggler = () => {
+    if (!completedFilterToggler) {
+      setAllFilterToggler(false);
+      setRemainingFilterToggler(false);
+      setCompleteFilterToggler(true);
     }
-  }
+  };
+
+  const editTask = (x) => {
+    console.log(x);
+  };
   // Filter Toggler Methods End.
 
   // Retrieve Data from Local Storage.
-  componentWillMount() {
+
+  useEffect(() => {
     let remTask = JSON.parse(localStorage.getItem('remainingTasks'));
     let compTask = JSON.parse(localStorage.getItem('completedTasks'));
 
     if (remTask) {
-      this.setState({
-        tasks: remTask,
-      });
+      setTasks(remTask);
     }
 
     if (compTask) {
-      this.setState({
-        completedTasks: compTask,
-      });
+      setCompletedTasks(compTask);
     }
-  }
+  }, []);
 
-  render() {
-    localStorage.setItem('remainingTasks', JSON.stringify(this.state.tasks));
-    localStorage.setItem(
-      'completedTasks',
-      JSON.stringify(this.state.completedTasks)
-    );
+  localStorage.setItem('remainingTasks', JSON.stringify(tasks));
+  localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
 
-    let toggler = '';
-    if (this.state.allFilterToggler) {
-      toggler = (
-        <React.Fragment>
-          <RemainingTasks
-            editTask={(x) => this.editTask(x)}
-            task={this.state.tasks}
-            deleteTask={(e) => this.deleteUserTask(e)}
-          />
-          <br />
-          <CompletedTasks
-            task={this.state.completedTasks}
-            deleteTask={(e) => this.deleteCompletedUserTask(e)}
-          />
-        </React.Fragment>
-      );
-    }
-    if (this.state.remainingFilterToggler) {
-      toggler = (
+  let toggler = '';
+  if (allFilterToggler) {
+    toggler = (
+      <>
         <RemainingTasks
-          editTask={this.editTask}
-          task={this.state.tasks}
-          deleteTask={(e) => this.deleteUserTask(e)}
-        />
-      );
-    }
-    if (this.state.completedFilterToggler) {
-      toggler = (
+          editTask={(x) => editTask(x)}
+          task={tasks}
+          deleteTask={(e) => deleteUserTask(e)}
+        />{' '}
+        <br />
         <CompletedTasks
-          task={this.state.completedTasks}
-          deleteTask={(e) => this.deleteCompletedUserTask(e)}
-        />
-      );
-    }
-    return (
-      <div className='outerWrapper container col-sm-6 col-sm-offset-3 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3'>
-        <Header />
-        <div className='innerWrapper container'>
-          <AddTask
-            updateTask={(task, inputFieldRef) =>
-              this.updateUserNewTask(task, inputFieldRef)
-            }
-            userValue={this.state.userInputValueHolder}
-          />
-          <br />
-          <Filter
-            tasks={this.state.tasks}
-            allValue={this.state.allFilterToggler}
-            remainingValue={this.state.remainingFilterToggler}
-            completedValue={this.state.completedFilterToggler}
-            allToggler={() => this.allToggler()}
-            remainingToggler={() => this.remainingToggler()}
-            completedToggler={() => this.completedToggler()}
-          />
-          {toggler}
-        </div>
-        <p className='footer'>
-          {' '}
-          Designed with{' '}
-          <span
-            role='img' //eslint-disable-next-line
-          >
-            {' '}
-            ♥️{' '}
-          </span>{' '}
-        </p>
-      </div>
+          task={completedTasks}
+          deleteTask={(e) => deleteCompletedUserTask(e)}
+        />{' '}
+      </>
     );
   }
-}
+
+  if (remainingFilterToggler) {
+    toggler = (
+      <RemainingTasks
+        editTask={editTask}
+        task={tasks}
+        deleteTask={(e) => deleteUserTask(e)}
+      />
+    );
+  }
+  if (completedFilterToggler) {
+    toggler = (
+      <CompletedTasks
+        task={completedTasks}
+        deleteTask={(e) => deleteCompletedUserTask(e)}
+      />
+    );
+  }
+  return (
+    <div className='outerWrapper container col-sm-6 col-sm-offset-3 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3'>
+      <Header />
+      <div className='innerWrapper container'>
+        <AddTask
+          userValue={userInputValueHolder}
+          updateTask={(task) => updateUserNewTask(task)}
+        />{' '}
+        <br />
+        <Filter
+          tasks={tasks}
+          allValue={allFilterToggler}
+          remainingValue={remainingFilterToggler}
+          completedValue={completedFilterToggler}
+          allToggler={() => allToggler()}
+          remainingToggler={() => remainingToggler()}
+          completedToggler={() => completedToggler()}
+        />{' '}
+        {toggler}{' '}
+      </div>{' '}
+      <p className='footer'>
+        {' '}
+        Designed with{' '}
+        <span
+          role='img' //eslint-disable-next-line
+        >
+          {' '}
+          ♥️{' '}
+        </span>{' '}
+      </p>
+    </div>
+  );
+};
+
+export default App;

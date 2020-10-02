@@ -1,45 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export class AddTask extends React.Component {
-  constructor(props) {
-    super();
-    this.state = {
-      inputValue: props.userValue,
-    };
-    this.textInput = React.createRef();
-  }
+export const AddTask = ({ userValue, updateTask }) => {
+  const [inputValue, setInputValue] = useState(userValue);
   // onChangeHandler for the Input Field.
-  getUserInput(event) {
-    this.setState({
-      inputValue: event.target.value,
-    });
-  }
+  const getUserInput = (event) => {
+    setInputValue(event.target.value);
+  };
 
-  verifyEntry() {
-    if (this.state.inputValue !== '') {
-      if (this.props.updateTask(this.state.inputValue, this.textInput)) {
-        this.setState({
-          inputValue: '',
-        });
+  const verifyEntry = () => {
+    if (inputValue !== '') {
+      if (updateTask(inputValue)) {
+        setInputValue('');
       }
     } else {
       alert('Task cannot be empty.');
     }
-  }
-
-  render() {
-    return (
-      <div className='addTask'>
-        <input
-          ref={this.textInput}
-          type='text'
-          placeholder='Add new task.'
-          onChange={(event) => this.getUserInput(event)}
-        />
-        <button onClick={() => this.verifyEntry()} title='Click to Add.'>
-          +
-        </button>
-      </div>
-    );
-  }
-}
+  };
+  return (
+    <div className='addTask'>
+      <input
+        type='text'
+        placeholder='Add new task.'
+        value={inputValue}
+        onChange={(event) => getUserInput(event)}
+      />{' '}
+      <button onClick={() => verifyEntry()} title='Click to Add.'>
+        {' '}
+        +{' '}
+      </button>{' '}
+    </div>
+  );
+};

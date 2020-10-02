@@ -1,6 +1,4 @@
 import React from 'react';
-export class Info extends React.Component {
-  render() {
-    return <p className='info'>{this.props.children}</p>;
-  }
-}
+export const Info = (props) => {
+  return <p className='info'> {props.children} </p>;
+};

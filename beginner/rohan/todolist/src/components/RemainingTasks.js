@@ -7,10 +7,11 @@ export const RemainingTasks = (props) => {
   if (props.task.length !== 0) {
     DisplayContent = (
       <ul className='list-unstyled'>
+        {' '}
         {props.task.map((item) => {
           return (
             <li key={item.index} className='ui-state-default'>
-              <span className='remaining'>{item.content}</span>
+              <span className='remaining'> {item.content} </span>{' '}
               <img
                 src={require('./../images/check-mark-button.svg')}
                 alt='check-mark-button'
@@ -20,16 +21,15 @@ export const RemainingTasks = (props) => {
               />
             </li>
           );
-        })}
+        })}{' '}
       </ul>
     );
   } else {
-    DisplayContent = <Info>No Tasks to be done.</Info>;
+    DisplayContent = <Info> No Tasks to be done. </Info>;
   }
   return (
     <div>
-      <ItemsCounter tasks={props.task} />
-      {DisplayContent}
+      <ItemsCounter tasks={props.task} /> {DisplayContent}{' '}
     </div>
   );
 };
