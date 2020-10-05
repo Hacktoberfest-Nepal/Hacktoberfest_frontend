@@ -12,7 +12,7 @@ export const HeaderArea = () => {
         <div className='first-header'>
           <div className='logo'>
             <img
-              src='/images/logo.png'
+              src='/logo.png'
               alt=''
               style={{ height: '40px', padding: '1rem' }}
             />
