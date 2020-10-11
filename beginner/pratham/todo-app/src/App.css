@@ -1,0 +1,12 @@
+.App {
+  /* text-align: center; */
+  background-color:#F0F7EE;
+  min-height: 100vh;
+}
+
+.Header {
+    height: 12vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
