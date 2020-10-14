@@ -1,0 +1,12 @@
+body {
+  background-color: teal;
+  margin: 0;
+  font-family: "Kalam", cursive;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
