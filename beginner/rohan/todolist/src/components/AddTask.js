@@ -18,16 +18,20 @@ export const AddTask = ({ userValue, updateTask }) => {
   };
   return (
     <div className='addTask'>
-      <input
+      <form onSubmit={e=>e.preventDefault()}>
+        <input
         type='text'
         placeholder='Add new task.'
         value={inputValue}
         onChange={(event) => getUserInput(event)}
       />{' '}
-      <button onClick={() => verifyEntry()} title='Click to Add.'>
+      
+      <button onClick={() => verifyEntry()} title='Click to Add.'> 
         {' '}
         +{' '}
-      </button>{' '}
+      </button>
+      {' '}
+      </form> 
     </div>
   );
 };
